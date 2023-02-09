@@ -1,8 +1,6 @@
 
-import React, { useRef, useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
+import  {  useState, useEffect } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from '../api/axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -50,7 +48,7 @@ export default function SignUp() {
     e.preventDefault();
     console.log("submitted");
     await axios.post(endpointsURL.register,
-        JSON.stringify({ username: user, email: email, first_name: firstname, last_name: lastname, password: pwd }),
+        JSON.stringify({ username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, company_id: companyNames.map(e=>{if(companyName == e.company_name){return e.id} })[0] , company_type: companyNames.map(e=>{if(companyName == e.company_name){return e.company_type} })[0] }),
         {
           headers: { 'Content-Type': 'application/json'},
 
@@ -79,35 +77,35 @@ export default function SignUp() {
 
 
 
-      if(!isNewCompany){
+      // if(!isNewCompany){
         
-        await axios.post("http://127.0.0.1:8000/employees/customer/register/",
-          JSON.stringify({  company_name: companyName, company_id: companyNames.map(e=>{if(companyName == e.company_name){return e.id} })[0] , company_type: companyNames.map(e=>{if(companyName == e.company_name){return e.company_type} })[0]   }),
-          {
-            headers: { 'Content-Type': 'application/json' },
+      //   await axios.post("http://127.0.0.1:8000/employees/customer/register/",
+      //     JSON.stringify({  company_name: companyName, company_id: companyNames.map(e=>{if(companyName == e.company_name){return e.id} })[0] , company_type: companyNames.map(e=>{if(companyName == e.company_name){return e.company_type} })[0]   }),
+      //     {
+      //       headers: { 'Content-Type': 'application/json' },
   
-          }
-        ).then((response) => {
-          // TODO: remove console.logs before deployment
-        console.log(JSON.stringify(response?.data));
+      //     }
+      //   ).then((response) => {
+      //     // TODO: remove console.logs before deployment
+      //   console.log(JSON.stringify(response?.data));
         
-        setUser('');
-        setPwd('');
-        setMatchPwd('');
-        setfirstname('');
-        setlastname('');
-        setEmail('');
-        navigate('/login', { replace: true });
-        }).catch((err)=>{
-          if (!err) {
-            console.log('No Server Response');
-          } else if (err.response?.status === 409) {
-            console.log('Username Taken');
-          } else {
-            console.log('Registration Failed')
-          }
-        }) ;
-      }
+      //   setUser('');
+      //   setPwd('');
+      //   setMatchPwd('');
+      //   setfirstname('');
+      //   setlastname('');
+      //   setEmail('');
+      //   navigate('/login', { replace: true });
+      //   }).catch((err)=>{
+      //     if (!err) {
+      //       console.log('No Server Response');
+      //     } else if (err.response?.status === 409) {
+      //       console.log('Username Taken');
+      //     } else {
+      //       console.log('Registration Failed')
+      //     }
+      //   }) ;
+      // }
 
 
 

@@ -34,7 +34,7 @@ def getRoutes(request):
 
 @api_view(['POST'])
 def CustomerEmployeeRegister(request):
-    print(request.data)
+
     serializer = CustomerEmployeesSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -65,9 +65,10 @@ def CustomerEmployeeList(request):
         user_id = i['user_id']
         user_name = User.objects.filter(id = user_id)
         user_serializer = UserSerializer(user_name, many=True)
-        x = [i['user_id'],user_serializer.data]
-        print(x)
-        l.append(x)
+        if i['user_id'] != None:
+            x = [i['user_id'],user_serializer.data]
+            print(x)
+            l.append(x)
     json_data = json.dumps(l)  
    
     return Response(json_data)

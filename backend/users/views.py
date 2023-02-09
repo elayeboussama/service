@@ -13,14 +13,26 @@ from .serializers import UserSerializer
 from .models import Profile
 from employees.models import Customer_Employees, Supplier_Employees
 from employees.serializers import CustomerEmployeesSerializer
-
+from time import sleep
 
 @api_view(['POST'])
 def RegisterUser(request):
+    print(request.data)
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        print('saved')
+    sleep(3)    
+    user_id = User.objects.get(username=serializer.data['username'])  
+    user_serializer = UserSerializer(instance=user_id)
+    
+
+    d={'company_id':request.data['company_id'],'user_id':user_serializer.data['id']} 
+    employee_serializer = CustomerEmployeesSerializer(data=d)
+    if employee_serializer.is_valid():
+        employee_serializer.save()
     return Response(serializer.data)
+   
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

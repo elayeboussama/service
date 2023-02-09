@@ -100,6 +100,7 @@ def List_Project_Member(request,pk):
         user = User.objects.filter(id=i['id_user'])
         user_serializer = UserSerializer(user, many=True)
         for j in user_serializer.data:
+            
             x = [i['id_user'],j['username'],i['user_role']] 
             l.append(x)
         
