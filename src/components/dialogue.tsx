@@ -11,12 +11,15 @@ import Select from '@mui/material/Select';
 import * as React from 'react';
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
-
+import { Link, useNavigate , useParams} from 'react-router-dom';
 export const ManageDialog = ({
     id,
     handleClickOpen,
     handleClose,
-    open
+    open,
+    description,
+    status,
+    title
 }: {
     id: any,
     handleClickOpen: () => void,
@@ -32,6 +35,8 @@ export const ManageDialog = ({
         addMember()
         console.log('submit', selectedMember, permission)
     }
+
+    const navigate = useNavigate();
     const fetchEmployees = async () => {
 
         await axios.get("http://127.0.0.1:8000/employees/customer/list/",
@@ -45,6 +50,7 @@ export const ManageDialog = ({
             console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",JSON.parse(response.data))
             console.log(response.data)
             setAdmins(JSON.parse(response.data) )
+     
              
         });
     }
@@ -62,9 +68,11 @@ export const ManageDialog = ({
         if(response.status === 200){
 
             handleClose()
-            setUpdate(true)
-            // navigate(`edit/${project.id}/${project.title}/${project.description}`)
+            // // setUpdate(true)
+            navigate(`edit/${id}/${title}/${description}/${status}`)
         }
+
+        navigate("/", { replace: true })
 
     });
     }

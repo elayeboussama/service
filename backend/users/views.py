@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 from .models import Profile
 from employees.models import Customer_Employees, Supplier_Employees
-from employees.serializers import CustomerEmployeesSerializer
+from employees.serializers import CustomerEmployeesSerializer, SupplierEmployeesSerializer
 from time import sleep
 
 @api_view(['POST'])

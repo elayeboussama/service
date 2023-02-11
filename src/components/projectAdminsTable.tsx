@@ -9,12 +9,16 @@ import Paper from '@mui/material/Paper';
 import { Button, IconButton } from '@mui/material';
 import axios from '../api/axios';
 import { useAuthContext } from '../hooks/useAuthContext';
-  
+import { Link, useNavigate , useParams} from 'react-router-dom';
 
-export const  PrivilegeTable =({data , disable})=> {
+export const  PrivilegeTable =({data , disable,
+id, description,
+status,
+title
+})=> {
 
 
-
+  const navigate = useNavigate();
   
   const auth = useAuthContext();
 
@@ -33,7 +37,7 @@ export const  PrivilegeTable =({data , disable})=> {
       }
     ).then((response) => {
       // TODO: remove console.logs before deployment
-      
+      navigate(`edit/${id}/${title}/${description}/${status}`)
 
     
 

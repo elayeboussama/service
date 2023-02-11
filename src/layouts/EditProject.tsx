@@ -3,14 +3,14 @@ import { Box, Button, Grid } from '@mui/material'
 import { PrivilegeTable } from '../components/projectAdminsTable'
 import { TextField} from '@mui/material'
 import { ManageDialog } from '../components/dialogue'
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate , useParams} from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from '../api/axios';
 
 
 export const EditProject = () => {
   console.log("heyzzzz")
-  
+  const navigate = useNavigate();
   const auth = useAuthContext(); 
   let {id , title : paramTitle, description : paramDescription, status : paramStatus, role: paramRole} = useParams()
   console.log(id , paramTitle , paramDescription)
@@ -61,7 +61,7 @@ export const EditProject = () => {
     ).then((response) => {
       // TODO: remove console.logs before deployment
    
-
+      navigate("/", { replace: true })
 
   
 
@@ -92,7 +92,8 @@ export const EditProject = () => {
         // TODO: remove console.logs before deployment
     
 
-    setMembers(JSON.parse(response?.data))
+        setMembers(JSON.parse(response?.data))
+        navigate("/", { replace: true })
 
 
 
@@ -121,10 +122,11 @@ export const EditProject = () => {
 
        }
      ).then((response) => {
-       // TODO: remove console.logs before deployment
-     console.log("zzzzzz:",JSON.parse(response?.data));
+          // TODO: remove console.logs before deployment
+        console.log("zzzzzz:",JSON.parse(response?.data));
 
-    setMembers(JSON.parse(response?.data))
+        setMembers(JSON.parse(response?.data))
+        
 
     
    
@@ -198,18 +200,34 @@ export const EditProject = () => {
         handleClickOpen()
       }}>add member</Button >
       <br />
-      <div>PROJECT MEMBERS</div>
-      <br />
-      <PrivilegeTable  disable={role==="viewer"} data={[...memebers]} />
-            <Button
-            disabled={role==="viewer"}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >update project</Button>
-          </Box>
-      <ManageDialog open={open} handleClose={handleClose} setUpdate={setUpdate} handleClickOpen={handleClickOpen} id={id}  />
+
+
+        {role==="viewer"?"":
+
+          <>
+          
+              <div>PROJECT MEMBERS</div>
+              <br />
+              <PrivilegeTable  disable={role==="viewer"} id={id} status={status} description={description} title={title} data={[...memebers]} />
+          
+          
+          </>
+        
+        
+        
+        }
+
+
+
+      <Button
+      disabled={role==="viewer"}
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >update project</Button>
+    </Box>
+    <ManageDialog open={open} handleClose={handleClose} setUpdate={setUpdate} handleClickOpen={handleClickOpen} id={id} status={status} description={description} title={title}  />
     </Grid>
   )
 }
