@@ -23,8 +23,8 @@ title
   const auth = useAuthContext();
 
   
-    const deleteUser = async (id) => {
-      await axios.delete("http://127.0.0.1:8000/projects/project-members-delete/"+id+"/", 
+    const deleteUser = async (id_user) => {
+      await axios.delete("http://127.0.0.1:8000/projects/project-members-delete/"+id_user+"/", 
       {
         headers: { 'Content-Type': 'application/json',
                       "Authorization": `Bearer ${auth?.user?.access}`,
@@ -37,7 +37,7 @@ title
       }
     ).then((response) => {
       // TODO: remove console.logs before deployment
-      navigate(`edit/${id}/${title}/${description}/${status}`)
+            navigate(`/`, { replace: true })
 
     
 

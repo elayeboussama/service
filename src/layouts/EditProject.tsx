@@ -208,7 +208,7 @@ export const EditProject = () => {
           
               <div>PROJECT MEMBERS</div>
               <br />
-              <PrivilegeTable  disable={role==="viewer"} id={id} status={status} description={description} title={title} data={[...memebers]} />
+              <PrivilegeTable  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} data={[...memebers]} />
           
           
           </>
@@ -227,7 +227,7 @@ export const EditProject = () => {
         sx={{ mt: 3, mb: 2 }}
       >update project</Button>
     </Box>
-    <ManageDialog open={open} handleClose={handleClose} setUpdate={setUpdate} handleClickOpen={handleClickOpen} id={id} status={status} description={description} title={title}  />
+    <ManageDialog open={open} handleClose={handleClose} setUpdate={setUpdate} handleClickOpen={handleClickOpen} id={id} status={paramStatus} description={description} title={title}  />
     </Grid>
   )
 }

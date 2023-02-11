@@ -69,10 +69,10 @@ export const ManageDialog = ({
 
             handleClose()
             // // setUpdate(true)
-            navigate(`edit/${id}/${title}/${description}/${status}`)
+            
         }
 
-        navigate("/", { replace: true })
+        navigate(`/`, { replace: true })
 
     });
     }
