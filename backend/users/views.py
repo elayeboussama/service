@@ -17,20 +17,30 @@ from time import sleep
 
 @api_view(['POST'])
 def RegisterUser(request):
-    print(request.data)
-    serializer = RegisterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        print('saved')
-    sleep(3)    
-    user_id = User.objects.get(username=serializer.data['username'])  
-    user_serializer = UserSerializer(instance=user_id)
-    
-
-    d={'company_id':request.data['company_id'],'user_id':user_serializer.data['id']} 
-    employee_serializer = CustomerEmployeesSerializer(data=d)
-    if employee_serializer.is_valid():
-        employee_serializer.save()
+    if request.data['company_type'] == 'customer':
+        print('bch nsajjel customer')
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()        
+        sleep(3)    
+        user_id = User.objects.get(username=serializer.data['username'])  
+        user_serializer = UserSerializer(instance=user_id)
+        d={'company_id':request.data['company_id'],'user_id':user_serializer.data['id']} 
+        employee_serializer = CustomerEmployeesSerializer(data=d)
+        if employee_serializer.is_valid():
+            employee_serializer.save()
+    else:
+        print('bch nsajjel supplier')
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()        
+        sleep(3)    
+        user_id = User.objects.get(username=serializer.data['username'])  
+        user_serializer = UserSerializer(instance=user_id)
+        d={'company_id':request.data['company_id'],'user_id':user_serializer.data['id']} 
+        employee_serializer = SupplierEmployeesSerializer(data=d)
+        if employee_serializer.is_valid():
+            employee_serializer.save()
     return Response(serializer.data)
    
 

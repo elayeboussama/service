@@ -41,7 +41,7 @@ def SupplierCompanyRegister(request):
     serializer = SupplierCompanySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(vserializer.data)    
+    return Response(serializer.data)    
 
 
 @api_view(['GET'])
