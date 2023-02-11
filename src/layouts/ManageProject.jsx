@@ -68,23 +68,9 @@ export const ManageProject = () => {
                     </Grid>
                     )
                     })
-        }
-
-
-                    </Grid>
-
-        <h2 style={{marginInline:80}}>Shared Projects</h2>
-
-        <Grid
-        padding={10}
-        container
-        direction="row"
-            justifyContent="center"
-            alignItems="center"
-            style={{marginBlock:"15px", marginInline:"100px", width:"70%"}}
-            >
             
-         { !ready ? <CircularProgress /> :  projectsShared?.map((project) => {
+        }
+        { !ready ? <CircularProgress /> :  projectsShared?.map((project) => {
              return (
                     <Grid style={{marginBlock:"15px", width:"100%"}} item xs={12} sm={12} md={12} lg={12} key={project[0]}>
                             <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
@@ -103,7 +89,70 @@ export const ManageProject = () => {
                     </Grid>
                     )
                     })
+
+
+                    
+                }
+
+                    </Grid>
+
+        <h2 style={{marginInline:80}}>finished Projects</h2>
+
+        <Grid
+        padding={10}
+        container
+        direction="row"
+            justifyContent="center"
+            alignItems="center"
+            style={{marginBlock:"15px", marginInline:"100px", width:"70%"}}
+            >
+         { !ready ? <CircularProgress /> :  projects?.map((project) => {
+            if(project[4]==="2"){
+             return (
+                    <Grid style={{marginBlock:"15px", width:"100%"}}  item xs={12} sm={12} md={12} lg={12}  key={project.id}>
+                            <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
+                             
+                                <Typography>
+                                    {project.title} 
+                                </Typography>
+                                {/* <Typography>
+                                    {project.description} 
+                                </Typography> */}
+                                <Button variant="contained" onClick={()=> navigate(`edit/${project.id}/${project.title}/${project.description}/${project.status}/admin` )}>
+                                    manage
+                                </Button >
+                        </Grid>
+                    </Grid>
+                    )}
+                    })
+            
         }
+        { !ready ? <CircularProgress /> :  projectsShared?.map((project) => {
+            if(project[4]==="2"){
+
+                return (
+                       <Grid style={{marginBlock:"15px", width:"100%"}} item xs={12} sm={12} md={12} lg={12} key={project[0]}>
+                               <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
+                                   <Typography>
+                                       {project[1]} 
+                                   </Typography>
+                                   {/* <Typography>
+                                       {project[2]} 
+                                   </Typography> */}
+                                   <Button variant="contained" onClick={()=> navigate(`edit/${project[0]}/${project[1]}/${project[3]}/${project[4]}/${project[2]}` )}  >  
+                                    
+                                       manage
+                                       
+                                   </Button >
+                           </Grid>
+                       </Grid>
+                       )
+            }
+                    })
+
+
+                    
+                }
 
         
                     </Grid>
@@ -113,3 +162,4 @@ export const ManageProject = () => {
     )
 }
 
+            
