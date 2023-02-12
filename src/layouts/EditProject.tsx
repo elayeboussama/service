@@ -28,6 +28,13 @@ export const EditProject = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setUpdate(false);
+    setUpdate(true);
+  };
+  const handleUpdate = () => {
+ 
+    setUpdate(false);
+    setUpdate(true);
   };
 
   useEffect(()=>{
@@ -61,7 +68,7 @@ export const EditProject = () => {
     ).then((response) => {
       // TODO: remove console.logs before deployment
    
-      navigate("/", { replace: true })
+      //navigate("/", { replace: true })
 
   
 
@@ -76,7 +83,7 @@ export const EditProject = () => {
 
  
   }
-  const handleSubmit = () => {
+  const handleUpdateProject = () => {
     axios.post("http://127.0.0.1:8000/projects/project-update/"+id+"/", {title:title,description:description},
     {
       headers: { 'Content-Type': 'application/json',
@@ -90,11 +97,13 @@ export const EditProject = () => {
         }
       ).then((response) => {
         // TODO: remove console.logs before deployment
-    
-
-        setMembers(JSON.parse(response?.data))
-        navigate("/", { replace: true })
-
+        setTitle(response.data.title)
+        setDescription(response.data.description)
+        setStatus(response.data.status)
+        setRole(response.data.role)
+        console.log("zzzssz",response.data)
+         navigate(`/activeProjects/edit/${id}/${response.data.title}/${response.data.description}/${response.data.status}/admin`, { replace: true })
+        
 
 
     }).catch((err)=>{
@@ -139,7 +148,7 @@ export const EditProject = () => {
      }
    }) ;
 
- },[update])
+ },[,update])
 
   React.useEffect(() => {
    // fetchEmployees()
@@ -155,9 +164,9 @@ export const EditProject = () => {
     justifyContent="space-between"
     alignItems="center">
       
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-      <div>EDIT PROJECT</div>
-      <Button variant="contained" color="error" disabled={role==="viewer"}  onClick={deleteProject}> delete project</Button>
+      <Box component="form"   noValidate sx={{ mt: 1 }}>
+        <div>EDIT PROJECT</div>
+          <Button variant="contained" color="error" disabled={role==="viewer"}  onClick={deleteProject}> delete project</Button>
           <TextField
               value={title}
               margin="normal"
@@ -196,38 +205,44 @@ export const EditProject = () => {
               disabled
             />
             
-      <Button variant="contained" disabled={role==="viewer"} color="success" onClick={() => {
-        handleClickOpen()
-      }}>add member</Button >
+      <Button variant="contained" disabled={role==="viewer"} color="success" onClick={handleClickOpen}>add member</Button >
       <br />
 
 
-        {role==="viewer"?"":
+        {role!=="viewer"?
 
           <>
           
-              <div>PROJECT MEMBERS</div>
-              <br />
-              <PrivilegeTable  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} data={[...memebers]} />
+              {memebers.length>0 || update?
+              
+                  <>
+                      <div>PROJECT MEMBERS</div>
+                      <br />
+                      <PrivilegeTable handleUpdate={handleUpdate} setUpdate={setUpdate}  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} role={role} data={[...memebers]} />
+                                    
+                  </>
+                :""
+            
+            }
           
           
           </>
         
-        
+        :""
         
         }
 
 
 
       <Button
-      disabled={role==="viewer"}
-        type="submit"
+      disabled={role==="viewer"} 
+      onClick={handleUpdateProject}
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
       >update project</Button>
     </Box>
-    <ManageDialog open={open} handleClose={handleClose} setUpdate={setUpdate} handleClickOpen={handleClickOpen} id={id} status={paramStatus} description={description} title={title}  />
+    <ManageDialog open={open} handleClose={handleClose}  id={id} status={paramStatus} description={description} title={title} setUpdate={setUpdate} role={role}  />
     </Grid>
   )
 }

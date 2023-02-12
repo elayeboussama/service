@@ -16,23 +16,24 @@ export const ManageProject = () => {
     const [ready, setReady] = React.useState(false)
     const  auth  = useAuthContext();
     const navigate = useNavigate();
+    async function fetchData() {
+        const response = await axios.get('http://127.0.0.1:8000/projects/project-created/',
+        { headers: { 
+          'Content-Type': 'application/json' ,
+            "Authorization" : `Bearer ${auth?.user?.access}`} });
+            setProjects(response.data);
+            setReady(true)
+        console.log("azzz",response.data);
+        const response2 = await axios.get('http://127.0.0.1:8000/projects/external-projects/',
+        { headers: { 
+          'Content-Type': 'application/json' ,
+            "Authorization" : `Bearer ${auth?.user?.access}`} });
+            setProjectsShared(JSON.parse(response2.data)); 
+            setReady(true)
+        console.log("azzz",response2.data);
+      }
     React.useEffect(() => {
-            async function fetchData() {
-              const response = await axios.get('http://127.0.0.1:8000/projects/project-created/',
-              { headers: { 
-                'Content-Type': 'application/json' ,
-                  "Authorization" : `Bearer ${auth?.user?.access}`} });
-                  setProjects(response.data);
-                  setReady(true)
-              console.log("azzz",response.data);
-              const response2 = await axios.get('http://127.0.0.1:8000/projects/external-projects/',
-              { headers: { 
-                'Content-Type': 'application/json' ,
-                  "Authorization" : `Bearer ${auth?.user?.access}`} });
-                  setProjectsShared(JSON.parse(response2.data)); 
-                  setReady(true)
-              console.log("azzz",response2.data);
-            }
+            
             fetchData();
           }, [auth]);
 

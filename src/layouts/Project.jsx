@@ -39,7 +39,7 @@ function Project() {
         }
       ).then((response) => {
         console.log(response)
-        navigate("/", {replace : true})
+        //navigate("/", {replace : true})
 });
     } catch (err) {
       if (!err?.response) {

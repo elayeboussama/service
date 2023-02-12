@@ -13,8 +13,9 @@ import { Link, useNavigate , useParams} from 'react-router-dom';
 
 export const  PrivilegeTable =({data , disable,
 id, description,
-status,
-title
+status,role,
+title,setUpdate,
+handleUpdate
 })=> {
 
 
@@ -37,7 +38,11 @@ title
       }
     ).then((response) => {
       // TODO: remove console.logs before deployment
-            navigate(`/`, { replace: true })
+      handleUpdate() 
+      
+      
+      
+      
 
     
 

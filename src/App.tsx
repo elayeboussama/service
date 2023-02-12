@@ -33,18 +33,18 @@ export default function App() {
        <Route path="/" element={<Profile/>} /> 
    </Route>
    <Route element={<RequireAuth />}>
-      <Route path="project" element={<ProjectTabs/>} /> 
+      <Route path="/project" element={<ProjectTabs/>} /> 
    </Route>
    <Route element={<RequireAuth />}>
-        <Route path="activeProjects" element={<ManageProject/>} /> 
+        <Route path="/activeProjects" element={<ManageProject/>} /> 
    </Route>
    <Route element={<RequireAuth />}>
-      <Route path="activeProjects/edit/:id/:title/:description/:status/:role" element={<EditProject/>} />
+      <Route exact path="/activeProjects/edit/:id/:title/:description/:status/:role" element={<EditProject/>} />
    </Route>
    <Route element={<RequireAuth />}>
-   <Route path="application" element={<Application/>} /> 
+   <Route path="/application" element={<Application/>} /> 
    </Route>
-   <Route path="unauthorized" element={<Unauthorized />} />
+   <Route path="/unauthorized" element={<Unauthorized />} />
   </Route>
   </Routes>
   </>
