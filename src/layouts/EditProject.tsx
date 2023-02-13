@@ -241,7 +241,7 @@ export const EditProject = () => {
         sx={{ mt: 3, mb: 2 }}
       >update project</Button>
     </Box>
-    <ManageDialog open={open} handleClose={handleClose}  id={id} status={paramStatus} description={description} title={title} setUpdate={setUpdate} role={role}  />
+    <ManageDialog open={open} handleClose={handleClose}  id={id} status={paramStatus} description={description} title={title} setUpdate={setUpdate} role={role} handleUpdate={handleUpdate} />
     </Grid>
   )
 }
