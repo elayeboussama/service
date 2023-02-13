@@ -19,7 +19,8 @@ export const ManageDialog = ({
     description,
     status,
     title,role,
-    setUpdate
+    setUpdate,
+    handleUpdate
 }: {
     id: any,
     handleClickOpen: () => void,
@@ -54,7 +55,8 @@ export const ManageDialog = ({
              
         });
     }
-    const addMember = async () => {
+    const addMember = async () => { 
+
         const body = { id_project: id, id_user : selectedMember, user_role : permission }
         await axios.post("http://127.0.0.1:8000/projects/project-members/register/",
        JSON.stringify(body),
@@ -64,18 +66,25 @@ export const ManageDialog = ({
             }
         }
     ).then((response) => {
+        handleUpdate()
         console.log(response)
         if(response.status === 200){
-
+            handleUpdate()
             handleClose()
         }
 
         //navigate(`/`, { replace: true })
 
-    });
+    }).catch(err=>{
+        handleUpdate() 
+
+    }) 
+
     }
     React.useEffect(() => {
-        fetchEmployees()
+        handleUpdate()
+        fetchEmployees() 
+
     }, [])
 
     return (

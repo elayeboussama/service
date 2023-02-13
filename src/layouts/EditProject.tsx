@@ -14,7 +14,7 @@ export const EditProject = () => {
   const auth = useAuthContext(); 
   let {id , title : paramTitle, description : paramDescription, status : paramStatus, role: paramRole} = useParams()
   console.log(id , paramTitle , paramDescription)
-  const [title, setTitle] = React.useState(paramTitle )
+  const [title, setTitle] = React.useState(paramTitle)
   const [description, setDescription] = React.useState(paramDescription)
   const [status, setStatus] = React.useState(paramStatus)
   const [role, setRole] = React.useState(paramRole)
@@ -148,7 +148,7 @@ export const EditProject = () => {
      }
    }) ;
 
- },[,update])
+ })//,[,update]
 
   React.useEffect(() => {
    // fetchEmployees()
@@ -218,8 +218,7 @@ export const EditProject = () => {
                   <>
                       <div>PROJECT MEMBERS</div>
                       <br />
-                      <PrivilegeTable handleUpdate={handleUpdate} setUpdate={setUpdate}  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} role={role} data={[...memebers]} />
-                                    
+                      <PrivilegeTable setMembers={setMembers} handleUpdate={handleUpdate} setUpdate={setUpdate}  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} role={role} data={[...memebers]} />  
                   </>
                 :""
             

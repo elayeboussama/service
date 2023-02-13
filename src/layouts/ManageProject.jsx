@@ -52,6 +52,7 @@ export const ManageProject = () => {
             >
             
          { !ready ? <CircularProgress /> :  projects?.map((project) => {
+            if(project.status!=="2"){
              return (
                     <Grid style={{marginBlock:"15px", width:"100%"}}  item xs={12} sm={12} md={12} lg={12}  key={project.id}>
                             <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
@@ -67,12 +68,13 @@ export const ManageProject = () => {
                                 </Button >
                         </Grid>
                     </Grid>
-                    )
+                    )}
                     })
             
         }
         { !ready ? <CircularProgress /> :  projectsShared?.map((project) => {
-             return (
+             if(project[4]!=="2"){
+                return (
                     <Grid style={{marginBlock:"15px", width:"100%"}} item xs={12} sm={12} md={12} lg={12} key={project[0]}>
                             <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
                                 <Typography>
@@ -89,6 +91,7 @@ export const ManageProject = () => {
                         </Grid>
                     </Grid>
                     )
+             }
                     })
 
 
@@ -108,7 +111,7 @@ export const ManageProject = () => {
             style={{marginBlock:"15px", marginInline:"100px", width:"70%"}}
             >
          { !ready ? <CircularProgress /> :  projects?.map((project) => {
-            if(project[4]==="2"){
+            if(project.status==="2"){
              return (
                     <Grid style={{marginBlock:"15px", width:"100%"}}  item xs={12} sm={12} md={12} lg={12}  key={project.id}>
                             <Grid container columnGap={5} style={{justifyContent:"space-between"}} xs={12}>
