@@ -13,7 +13,7 @@ import { Link, useNavigate , useParams} from 'react-router-dom';
 
 
 
-export const  PrivilegeTable =({data, disable, id, description, status, role, title, setUpdate, handleUpdate})=> {
+export const  PrivilegeTable =({data, disable,refresh, id, description, status, role, title, setUpdate })=> {
 
 
   const navigate = useNavigate();
@@ -35,35 +35,8 @@ export const  PrivilegeTable =({data, disable, id, description, status, role, ti
         }
       ).then((response) => {
         // TODO: remove console.logs before deployment
-        handleUpdate() 
-                      axios.get("http://127.0.0.1:8000/projects/project-members/list/"+id+"/", 
-                      {
-                        headers: { 'Content-Type': 'application/json',
-                                    "Authorization": `Bearer ${auth?.user?.access}`,
-                      },
-                      
-
-
-                      
-
-                      }
-                    ).then((response) => {
-                        // TODO: remove console.logs before deployment
-                      console.log("zzzzzz:",JSON.parse(response?.data));
-
-                      setMembers(JSON.parse(response?.data))
-                      
-
-                  
-                  
-                  }).catch((err)=>{
-                    if (!err) {
-                      console.log('No Server Response');
-                    }  else {
-                      console.log(err)
-                      console.log('No data' )
-                    }
-                  }) ;
+      
+        refresh()
       
       
       

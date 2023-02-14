@@ -20,7 +20,7 @@ export const ManageDialog = ({
     status,
     title,role,
     setUpdate,
-    handleUpdate
+    refresh
 }: {
     id: any,
     handleClickOpen: () => void,
@@ -66,23 +66,20 @@ export const ManageDialog = ({
             }
         }
     ).then((response) => {
-        handleUpdate()
         console.log(response)
+        refresh()
         if(response.status === 200){
-            handleUpdate()
             handleClose()
         }
 
         //navigate(`/`, { replace: true })
 
     }).catch(err=>{
-        handleUpdate() 
 
     }) 
 
     }
     React.useEffect(() => {
-        handleUpdate()
         fetchEmployees() 
 
     }, [])
