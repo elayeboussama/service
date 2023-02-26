@@ -15,5 +15,6 @@ urlpatterns = [
     path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/fetch/', views.ProfileList, name='profile-fetch'),
+    path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
     
 ]

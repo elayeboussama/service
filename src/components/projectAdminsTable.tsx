@@ -13,7 +13,7 @@ import { Link, useNavigate , useParams} from 'react-router-dom';
 
 
 
-export const  PrivilegeTable =({data, disable,refresh, id, description, status, role, title, setUpdate })=> {
+export const  PrivilegeTable =({data, disable, id, description, status, role, title, setUpdate, handleUpdate})=> {
 
 
   const navigate = useNavigate();
@@ -35,8 +35,35 @@ export const  PrivilegeTable =({data, disable,refresh, id, description, status, 
         }
       ).then((response) => {
         // TODO: remove console.logs before deployment
-      
-        refresh()
+        handleUpdate() 
+                      axios.get("http://127.0.0.1:8000/projects/project-members/list/"+id+"/", 
+                      {
+                        headers: { 'Content-Type': 'application/json',
+                                    "Authorization": `Bearer ${auth?.user?.access}`,
+                      },
+                      
+
+
+                      
+
+                      }
+                    ).then((response) => {
+                        // TODO: remove console.logs before deployment
+                      console.log("zzzzzz:",JSON.parse(response?.data));
+
+                      setMembers(JSON.parse(response?.data))
+                      
+
+                  
+                  
+                  }).catch((err)=>{
+                    if (!err) {
+                      console.log('No Server Response');
+                    }  else {
+                      console.log(err)
+                      console.log('No data' )
+                    }
+                  }) ;
       
       
       
@@ -59,7 +86,7 @@ export const  PrivilegeTable =({data, disable,refresh, id, description, status, 
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">name</TableCell>
+            <TableCell align="left">email</TableCell>
             <TableCell align="left">permission</TableCell>
             <TableCell align="left">delete member</TableCell>
           </TableRow>
@@ -71,7 +98,7 @@ export const  PrivilegeTable =({data, disable,refresh, id, description, status, 
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="left" component="th" scope="row">
-                {row[1]}
+                {row[3]}
               </TableCell>
               <TableCell align="left">{row[2] }</TableCell>
               <TableCell align="left" ><Button color="error" disabled={disable} variant="contained" onClick={()=>deleteUser(row[0])}>delete</Button></TableCell>

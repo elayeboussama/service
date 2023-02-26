@@ -52,7 +52,7 @@ export default function SignUp() {
 
 
     await axios.post(endpointsURL.register,
-        JSON.stringify({ username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, company_id: {...companyNames.filter(e=> companyName==e.company_name )[0] }.id , company_type: {...companyNames.filter(e=> companyName==e.company_name )[0] }.company_type }),
+        JSON.stringify({ username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, is_active:false, company_id: {...companyNames.filter(e=> companyName==e.company_name )[0] }.id , company_type: {...companyNames.filter(e=> companyName==e.company_name )[0] }.company_type }),
         {
           headers: { 'Content-Type': 'application/json'},
 

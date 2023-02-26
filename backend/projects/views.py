@@ -101,7 +101,7 @@ def List_Project_Member(request,pk):
         user_serializer = UserSerializer(user, many=True)
         for j in user_serializer.data:
             
-            x = [i['id_user'],j['username'],i['user_role']] 
+            x = [i['id_user'],j['username'],i['user_role'],j['email']] 
             l.append(x)
         
     json_data = json.dumps(l)    

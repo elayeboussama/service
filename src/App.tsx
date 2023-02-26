@@ -16,6 +16,8 @@ import ProjectTabs from "./components/projectTabs";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { ManageDialog } from "./components/dialogue";
 import { ManageProject } from "./layouts/ManageProject";
+import { AddEmployee } from "./layouts/AddEmployee";
+import { SignUpEmployee } from "./layouts/RegisterEmployee";
 import {EditProject} from "./layouts/EditProject";
 
 export default function App() {
@@ -29,6 +31,9 @@ export default function App() {
    <Route element={<UnrequiredAuth />}>
      <Route path="register" element={<Register />}/> 
    </Route>
+   <Route element={<UnrequiredAuth />}>
+     <Route path="registerEmployee" element={<SignUpEmployee />}/> 
+   </Route>
    <Route element={<RequireAuth />}>
        <Route path="/" element={<Profile/>} /> 
    </Route>
@@ -37,6 +42,9 @@ export default function App() {
    </Route>
    <Route element={<RequireAuth />}>
         <Route path="/activeProjects" element={<ManageProject/>} /> 
+   </Route>
+   <Route element={<RequireAuth />}>
+        <Route path="/addEmployee" element={<AddEmployee/>} /> 
    </Route>
    <Route element={<RequireAuth />}>
       <Route exact path="/activeProjects/edit/:id/:title/:description/:status/:role" element={<EditProject/>} />

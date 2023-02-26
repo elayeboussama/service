@@ -20,7 +20,7 @@ export const ManageDialog = ({
     status,
     title,role,
     setUpdate,
-    refresh
+    handleUpdate
 }: {
     id: any,
     handleClickOpen: () => void,
@@ -66,20 +66,23 @@ export const ManageDialog = ({
             }
         }
     ).then((response) => {
+        handleUpdate()
         console.log(response)
-        refresh()
         if(response.status === 200){
+            handleUpdate()
             handleClose()
         }
 
         //navigate(`/`, { replace: true })
 
     }).catch(err=>{
+        handleUpdate() 
 
     }) 
 
     }
     React.useEffect(() => {
+        //handleUpdate()
         fetchEmployees() 
 
     }, [])
@@ -121,7 +124,7 @@ export const ManageDialog = ({
                             {admins?.map((admin) => {
                                 return (
                                     <MenuItem key={admin[0]} value={admin[0]}>
-                                        {admin[1][0].username}
+                                        {admin[1][0].email}
                                     </MenuItem>
                                 );
                             })
