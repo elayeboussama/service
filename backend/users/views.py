@@ -47,7 +47,7 @@ def activateEmail(request, user, to_email):
     subject = 'Please Activate Your Account'
     uid= urlsafe_base64_encode(force_bytes(user['id'])),
     token = account_activation_token.make_token(user),
-    from_email = 'azizchibani0@gmail.com'
+    from_email = 'zicklerchristopher@gmail.com'
     for i in uid:
         u_id = i 
     for j in token:
@@ -58,6 +58,27 @@ def activateEmail(request, user, to_email):
         print(force_str(urlsafe_base64_decode(uid)))
     except:
         pass
+
+@api_view(['POST'])
+def ResendactivateEmail(request):
+    User = get_user_model()
+    user = User.objects.get(username=request.data['username'])
+    user_serializer = UserSerializer(instance=user)
+    subject = 'Please Activate Your Account'
+    uid= urlsafe_base64_encode(force_bytes(user_serializer.data['id'])),
+    token = account_activation_token.make_token(user_serializer.data),
+    from_email = 'zicklerchristopher@gmail.com'
+    for i in uid:
+        u_id = i 
+    for j in token:
+        verif_token = j
+    message = 'hello, here is the new link, '+ user['email']+' , click on the link to activate your account.'+'http://127.0.0.1:8000/users/activate/'+u_id+'/'+verif_token+'/'
+    send_mail(subject, message, from_email, [to_email], fail_silently=False)
+    try:
+        print(force_str(urlsafe_base64_decode(uid)))
+    except:
+        pass
+    return('c bon 3awedna b3athna')
 
 
 @api_view(['POST'])

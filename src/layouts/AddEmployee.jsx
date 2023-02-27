@@ -22,7 +22,7 @@ export const AddEmployee = () => {
   const [user,setUser] = useState({permession:"",email:""})
   const [dataIsReady, setDataIsReady] = React.useState(true)
   const [data, setData] = React.useState(null)
-  const fetchUserProfile = async () => await axios.get("http://127.0.0.1:8000/users/profile/fetch/", {
+  const fetchUserProfile = async () => await axios.post("http://127.0.0.1:8000/employees/invite/", {
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${auth?.user?.access}`

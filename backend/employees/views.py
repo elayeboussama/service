@@ -8,8 +8,17 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import CustomerEmployeesSerializer, SupplierEmployeesSerializer
 from .models import Customer_Employees
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import EmailMessage
+# from .tokens import account_activation_token
+from django.utils .encoding import force_bytes, force_str
+from django.shortcuts import render
+from django.core.mail import send_mail
 import json
 # Create your views here.
+
+
+
 
 
 
@@ -28,6 +37,17 @@ def getRoutes(request):
 
     return Response(routes)
 
+
+
+@api_view(['POST'])
+def InviteEmployee(request):
+    print(request.data)
+    subject = 'Invitation to join us!'
+    from_email = request.data['email']
+    to_email = 'mohamedaziz.chibani0@gmail.com'
+    message = 'ya3tk 3asba you have a new mail from '+ request.data['email']
+    send_mail(subject, message, from_email, [to_email], fail_silently=False)
+    return Response('zabb 3lik')
 
 
 
