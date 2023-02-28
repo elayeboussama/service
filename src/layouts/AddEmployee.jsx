@@ -22,7 +22,7 @@ export const AddEmployee = () => {
   const [user,setUser] = useState({permession:"",email:""})
   const [dataIsReady, setDataIsReady] = React.useState(true)
   const [data, setData] = React.useState(null)
-  const fetchUserProfile = async () => await axios.post("http://127.0.0.1:8000/employees/invite/", {
+  const Add = async () => await axios.post("http://127.0.0.1:8000/employees/invite/", {user}, {
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${auth?.user?.access}`
@@ -30,16 +30,10 @@ export const AddEmployee = () => {
     
   }).then((response) => {
     console.log(response)
-    if (response?.status === 200) {
-      setData(response.data)
-      setUser({...user,email:response.data.email,companyName:response.data.companyName})
-      setDataIsReady(true)
-    }
+     
     
   });
-  useEffect(() => {
-    fetchUserProfile()
-  }, [auth])
+
 
 
 
@@ -69,8 +63,8 @@ export const AddEmployee = () => {
                 <Typography component="h1" variant="h5">
                     Add employee
                 </Typography>
-                <Box component="form"  noValidate sx={{ mt: 1 }}> 
-                {/* onSubmit={handleSubmit} */}
+                <Box component="form" onSubmit={Add} noValidate sx={{ mt: 1 }}> 
+                {/* onSubmit={Add} */}
                 
                 
                     <TextField

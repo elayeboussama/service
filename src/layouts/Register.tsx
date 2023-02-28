@@ -38,6 +38,7 @@ export default function SignUp() {
   const [employeesNumber, setEmployeesNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [checkEmailOpen, setCheckEmailOpen] = useState("");
+  const [errorRegister, setErrorRegister] = useState(false);
 
   useEffect(() => {
     console.log("useEffect");
@@ -73,9 +74,13 @@ export default function SignUp() {
       setfirstname('');
       setlastname('');
       setEmail('');
+      setEmployeesNumber(0);
+      setAddress('');
+      setCompanyType(null); 
+      setCompanyName('');
       navigate('/login', { replace: true });
       }).catch(async (err)=>{
-        await handleCreateCompany()
+        
         if (!err) {
           console.log('No Server Response');
         } else if (err.response?.status === 409) {
@@ -144,6 +149,8 @@ export default function SignUp() {
           // TODO: remove console.logs before deployment
           console.log(JSON.stringify(response?.data));
           //window.location.reload(true);
+          setErrorRegister(false)
+
           setOpen(true)
         setUser('');
         setPwd('');
@@ -152,7 +159,9 @@ export default function SignUp() {
         setlastname('');
         setEmail('');
         }).catch((err)=>{
-          setOpen(true)
+          
+          setErrorRegister(true)
+          setTimeout(()=>setErrorRegister(false), 10000);
           if (!err) {
             console.log('No Server Response');
           } else if (err.response?.status === 409) {
@@ -170,9 +179,10 @@ export default function SignUp() {
   
           }
         ).then((response) => {
+          setErrorRegister(false)
           // TODO: remove console.logs before deployment
         console.log(JSON.stringify(response?.data));
-        window.location.reload(true);
+        // window.location.reload(true);
         setUser('');
         setPwd('');
         setMatchPwd('');
@@ -180,6 +190,8 @@ export default function SignUp() {
         setlastname('');
         setEmail('');
         }).catch((err)=>{
+          setErrorRegister(true)
+          setTimeout(()=>setErrorRegister(false), 10000);
           if (!err) {
             console.log('No Server Response');
           } else if (err.response?.status === 409) {
@@ -245,6 +257,14 @@ export default function SignUp() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        {errorRegister?
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Registration failed — <strong>Try again!</strong>
+          </Alert>  
+
+          :""      
+      }
         <CssBaseline />
         <Box
           sx={{
