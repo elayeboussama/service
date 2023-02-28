@@ -32,7 +32,7 @@ export default function App() {
      <Route path="register" element={<Register />}/> 
    </Route>
    <Route element={<UnrequiredAuth />}>
-     <Route path="registerEmployee" element={<SignUpEmployee />}/> 
+     <Route path="registerEmployee/:permession/:companyName/:email/:companyNameId" element={<SignUpEmployee />}/> 
    </Route>
    <Route element={<RequireAuth />}>
        <Route path="/" element={<Profile/>} /> 
