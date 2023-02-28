@@ -59,15 +59,16 @@ export default function SignUp() {
     // company_id: {...companyNames.filter(e=> companyName==e.company_name )[0] }.id , company_type: {...companyNames.filter(e=> companyName==e.company_name )[0] }.company_type
 
     await axios.post(endpointsURL.register,
-        JSON.stringify({ username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, is_active:false, company_name: companyName, adress: address, employees_number: employeesNumber, company_type: companyType }),
+        JSON.stringify(companyType == "supplier" ? { username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, is_active:false, company_name: companyName, adress: address, employees_number: employeesNumber, company_type: companyType, project_size: ProjectSize, expertise:Expertise  } : { username: user, email: email, first_name: firstname, last_name: lastname, password: pwd, is_active:false, company_name: companyName, adress: address, employees_number: employeesNumber, company_type: companyType }),
         {
           headers: { 'Content-Type': 'application/json'},
 
         }
       ).then(async (response) => {
         // TODO: remove console.logs before deployment
-      console.log(JSON.stringify(response?.data));
-      await handleCreateCompany()
+      console.log(JSON.stringify(response?.data)); 
+      setErrorRegister(false)
+      setOpen(true)
       setUser('');
       setPwd('');
       setMatchPwd('');
@@ -78,9 +79,9 @@ export default function SignUp() {
       setAddress('');
       setCompanyType(null); 
       setCompanyName('');
-      navigate('/login', { replace: true });
       }).catch(async (err)=>{
-        
+        setErrorRegister(true)
+        setTimeout(()=>setErrorRegister(false), 10000);
         if (!err) {
           console.log('No Server Response');
         } else if (err.response?.status === 409) {
@@ -137,71 +138,7 @@ export default function SignUp() {
     }
 
 
-    const handleCreateCompany = async()=>{
-      if(companyType== "customer"){
-        await axios.post("http://127.0.0.1:8000/companies/customer/register/",
-          JSON.stringify({ company_name: companyName, adress: address, employees_number: employeesNumber, company_type: companyType }),
-          {
-            headers: { 'Content-Type': 'application/json' },
-  
-          }
-        ).then((response) => {
-          // TODO: remove console.logs before deployment
-          console.log(JSON.stringify(response?.data));
-          //window.location.reload(true);
-          setErrorRegister(false)
-
-          setOpen(true)
-        setUser('');
-        setPwd('');
-        setMatchPwd('');
-        setfirstname('');
-        setlastname('');
-        setEmail('');
-        }).catch((err)=>{
-          
-          setErrorRegister(true)
-          setTimeout(()=>setErrorRegister(false), 10000);
-          if (!err) {
-            console.log('No Server Response');
-          } else if (err.response?.status === 409) {
-            console.log('Username Taken');
-          } else {
-            console.log('Registration Failed')
-          }
-        }) ;
-      }
-      else if( companyType == "supplier"){
-        await axios.post("http://127.0.0.1:8000/companies/supplier/register/",
-          JSON.stringify({ company_name: companyName, adress: address, employees_number: employeesNumber, company_type: companyType, project_size: ProjectSize, expertise:Expertise }),
-          {
-            headers: { 'Content-Type': 'application/json' },
-  
-          }
-        ).then((response) => {
-          setErrorRegister(false)
-          // TODO: remove console.logs before deployment
-        console.log(JSON.stringify(response?.data));
-        // window.location.reload(true);
-        setUser('');
-        setPwd('');
-        setMatchPwd('');
-        setfirstname('');
-        setlastname('');
-        setEmail('');
-        }).catch((err)=>{
-          setErrorRegister(true)
-          setTimeout(()=>setErrorRegister(false), 10000);
-          if (!err) {
-            console.log('No Server Response');
-          } else if (err.response?.status === 409) {
-            console.log('Username Taken');
-          } else {
-            console.log('Registration Failed')
-          }
-        }) ;
-      }
-    }
+    
 
 
 

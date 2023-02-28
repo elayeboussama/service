@@ -28,7 +28,7 @@ export const SignUpEmployee = () => {
   let {permession:paramPermession , companyName : paramCompanyName, email:paramEmail, companyNameId: paramCompanyNameId } = useParams()
   const auth = useAuthContext();
   console.log(auth)
-  const [user,setUser] = useState({companyNameId:paramCompanyNameId, companyName:paramCompanyName, permession:paramPermession ,username:"",firstname:"",lastname:"",email:paramEmail})
+  const [user,setUser] = useState({companyNameId:paramCompanyNameId, companyName:paramCompanyName, permession:paramPermession ,username:"",firstname:"",lastname:"",email:paramEmail,password:""})
   const [dataIsReady, setDataIsReady] = React.useState(true)
   const [data, setData] = React.useState(null)
 
@@ -148,6 +148,18 @@ export const SignUpEmployee = () => {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    />
+                    <TextField
+                      value={user.password}
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      onChange={(e) => handleChange(e)}
                     />
                     <Button
                     type="submit"
