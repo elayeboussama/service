@@ -1,5 +1,6 @@
 import React ,{    useRef, useState, useEffect } from 'react';
 import {useAuthContext}  from '../hooks/useAuthContext';
+import { Alert, AlertTitle, Checkbox, Divider, FormControl, FormControlLabel, Modal } from '@mui/material';
 
 import { Link, useNavigate , useParams} from 'react-router-dom';
 import jwt_decode from "jwt-decode";
@@ -20,6 +21,7 @@ export  default function  SignIn() {
   const { dispatch } = useAuthContext()
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
+    const [unauthorized, setUnauthorized] = useState(false);
     const [pwd, setPwd] = useState('');
 
     const handleSubmit = async (e) => {
@@ -34,6 +36,10 @@ export  default function  SignIn() {
                     headers: { 'Content-Type': 'application/json' }
                 }
             ).then((response)=> {
+                if (err.response?.status === 401) {
+                  console.log('Unauthorized');
+                  setUnauthorized(true)
+              }
                 console.log(response);
                 console.log(response.data.access);
                 console.log(JSON.stringify(response?.data));
@@ -48,12 +54,11 @@ export  default function  SignIn() {
 
 
             }).catch((err)=>{
-            if (err?.response) {
-                console.log('No Server Response');
-            } else if (err.response?.status === 400) {
+            if (err.response?.status === 400) {
                 console.log('Missing Username or Password');
             } else if (err.response?.status === 401) {
                 console.log('Unauthorized');
+                setUnauthorized(true)
             } else {
                 console.log('Login Failed');
             }
@@ -120,6 +125,13 @@ export  default function  SignIn() {
                 } 
               </Grid>
             </Grid>
+            {unauthorized?
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                please verify your account — <strong>Check your email!</strong>
+              </Alert>    
+              :""
+            }
           </Box>
         </Box>
       </Container>
