@@ -22,6 +22,7 @@ export  default function  SignIn() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [unauthorized, setUnauthorized] = useState(false);
+    const [notActive, setNotActive] = useState(false);
     const [pwd, setPwd] = useState('');
 
     const handleSubmit = async (e) => {
@@ -36,14 +37,14 @@ export  default function  SignIn() {
                     headers: { 'Content-Type': 'application/json' }
                 }
             ).then((response)=> {
-                if (err.response?.status === 401) {
+              console.log()
+                if (response?.status === 401) {
                   console.log('Unauthorized');
                   setUnauthorized(true)
-              }
-                console.log(response);
-                console.log(response.data.access);
-                console.log(JSON.stringify(response?.data));
-                const accessToken = response.data.access ;                
+              } else if(!jwt_decode(response.data.access).isActive){
+                setNotActive(true)
+              }else{
+                setNotActive(false)
                 localStorage.setItem('user', JSON.stringify(response?.data))
 
                 // update the auth context
@@ -52,6 +53,16 @@ export  default function  SignIn() {
                 setPwd('');
                 jwt_decode(response.data.access).user_type ? navigate("/", { replace: true }) :  navigate("/application", { replace: true });
 
+              }
+
+
+
+
+                console.log(response);
+                console.log(response.data.access);
+                console.log(JSON.stringify(response?.data));
+                const accessToken = response.data.access ;                
+                
 
             }).catch((err)=>{
             if (err.response?.status === 400) {
@@ -126,6 +137,13 @@ export  default function  SignIn() {
               </Grid>
             </Grid>
             {unauthorized?
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                please check — <strong>your username or your password !</strong>
+              </Alert>    
+              :""
+            }
+            {notActive?
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
                 please verify your account — <strong>Check your email!</strong>
